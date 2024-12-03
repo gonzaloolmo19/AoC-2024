@@ -31,33 +31,32 @@ func main() {
 	array1 := make([]int, 0, 5)
 	map2 := make(map[int]int)
 
-	for _,line := range lines {
+	for _, line := range lines {
 		if line == "" {
-			break;
+			break
 		}
-		columns:= strings.Fields(line)
+		columns := strings.Fields(line)
 		field1, err := strconv.Atoi(columns[0])
 		if err != nil {
 			fmt.Println("Could not convert to int")
-			os.Exit(1) 
+			os.Exit(1)
 		}
 		array1 = append(array1, field1)
 		field2, err := strconv.Atoi(columns[1])
 		if err != nil {
 			fmt.Println("Could not convert to int")
-			os.Exit(1) 
+			os.Exit(1)
 		}
 		map2[field2]++
 	}
 
-
-	// fmt.Println(array1) 
+	// fmt.Println(array1)
 	// fmt.Println(map2)
 
 	sum := 0
-	for i:=0; i<len(array1); i++ {
+	for i := 0; i < len(array1); i++ {
 		sum += array1[i] * map2[array1[i]]
 	}
 
-	fmt.Println("Result: ", sum) 
+	fmt.Println("Result: ", sum)
 }

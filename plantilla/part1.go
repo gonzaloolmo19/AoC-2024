@@ -1,6 +1,6 @@
 package main
 
-import(
+import (
 	"fmt"
 	"os"
 )
@@ -12,7 +12,7 @@ func main() {
 	}
 
 	// Read the entire file into memory
-	data, err := os.ReadFile(os.Args[1] )
+	data, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return

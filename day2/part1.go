@@ -17,23 +17,23 @@ func verifyReport(line string) bool {
 		number, err := strconv.Atoi(char)
 		if err != nil {
 			fmt.Println("Could not parse number")
-			os.Exit(1) 
+			os.Exit(1)
 		}
-		numbers = append(numbers,number)
+		numbers = append(numbers, number)
 	}
-	fmt.Println(numbers) 
+	fmt.Println(numbers)
 
 	isAsc := numbers[0] < numbers[1]
-	fmt.Println(isAsc) 
-	for i:=0; i< len(numbers)-1; i++ {
+	fmt.Println(isAsc)
+	for i := 0; i < len(numbers)-1; i++ {
 		if isAsc {
-			if numbers[i] > numbers[i+1] || (1 > numbers[i+1] - numbers[i] || numbers[i+1] - numbers[i] > 3) {
-				fmt.Println("i = ", i, "saliendo") 
+			if numbers[i] > numbers[i+1] || (1 > numbers[i+1]-numbers[i] || numbers[i+1]-numbers[i] > 3) {
+				fmt.Println("i = ", i, "saliendo")
 				return false
 			}
 		} else {
-			if numbers[i] < numbers[i+1] || (1 > numbers[i]-numbers[i+1] || numbers[i] - numbers[i+1] > 3) {
-				fmt.Println("dif: ", numbers[i]-numbers[i+1], "i = ", i, "saliendo") 
+			if numbers[i] < numbers[i+1] || (1 > numbers[i]-numbers[i+1] || numbers[i]-numbers[i+1] > 3) {
+				fmt.Println("dif: ", numbers[i]-numbers[i+1], "i = ", i, "saliendo")
 				return false
 			}
 		}
@@ -49,7 +49,7 @@ func main() {
 	}
 
 	// Read the entire file into memory
-	data, err := os.ReadFile(os.Args[1] )
+	data, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
@@ -58,19 +58,17 @@ func main() {
 	lines := strings.Split(text, "\n")
 	fmt.Println(len(lines))
 
-	cont:= 0
+	cont := 0
 
 	for _, line := range lines {
 		if line != "" {
-			fmt.Println("verify:", verifyReport(line) ) 
+			fmt.Println("verify:", verifyReport(line))
 			if verifyReport(line) {
 				cont += 1
 			}
 		}
 	}
 
-	fmt.Println("Result: ", cont) 
-
-
+	fmt.Println("Result: ", cont)
 
 }

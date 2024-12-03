@@ -33,16 +33,16 @@ func verifyReport(line string) bool {
 		number, err := strconv.Atoi(char)
 		if err != nil {
 			fmt.Println("Could not parse number")
-			os.Exit(1) 
+			os.Exit(1)
 		}
-		numbers = append(numbers,number)
+		numbers = append(numbers, number)
 	}
 
 	if verifyReportPartial(numbers) {
 		return true
 	}
 
-	for i:=0; i<len(line); i++ {
+	for i := 0; i < len(line); i++ {
 		if verifyReportPartial(removeNumAt(numbers, i)) {
 			return true
 		}
@@ -54,15 +54,15 @@ func verifyReportPartial(numbers []int) bool {
 	if (len(numbers)) == 1 {
 		return true
 	}
-	
+
 	isAsc := numbers[0] < numbers[1]
-	for i:=0; i< len(numbers)-1; i++ {
+	for i := 0; i < len(numbers)-1; i++ {
 		if isAsc {
-			if numbers[i] > numbers[i+1] || (1 > numbers[i+1] - numbers[i] || numbers[i+1] - numbers[i] > 3) {
+			if numbers[i] > numbers[i+1] || (1 > numbers[i+1]-numbers[i] || numbers[i+1]-numbers[i] > 3) {
 				return false
 			}
 		} else {
-			if numbers[i] < numbers[i+1] || (1 > numbers[i]-numbers[i+1] || numbers[i] - numbers[i+1] > 3) {
+			if numbers[i] < numbers[i+1] || (1 > numbers[i]-numbers[i+1] || numbers[i]-numbers[i+1] > 3) {
 				return false
 			}
 		}
@@ -78,7 +78,7 @@ func main() {
 	}
 
 	// Read the entire file into memory
-	data, err := os.ReadFile(os.Args[1] )
+	data, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
@@ -86,8 +86,7 @@ func main() {
 	text := string(data)
 	lines := strings.Split(text, "\n")
 
-
-	cont:= 0
+	cont := 0
 
 	for _, line := range lines {
 		if line != "" {
@@ -97,7 +96,7 @@ func main() {
 		}
 	}
 
-	fmt.Println("Result: ", cont) 
+	fmt.Println("Result: ", cont)
 
-// Not the most efficient way to solve
+	// Not the most efficient way to solve
 }

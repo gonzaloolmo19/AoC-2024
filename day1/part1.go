@@ -22,7 +22,7 @@ func main() {
 	}
 
 	// Read the entire file into memory
-	data, err := os.ReadFile(os.Args[1] )
+	data, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
@@ -32,21 +32,21 @@ func main() {
 	array1 := make([]int, 0, 5)
 	array2 := make([]int, 0, 5)
 
-	for _,line := range lines {
+	for _, line := range lines {
 		if line == "" {
-			break;
+			break
 		}
-		columns:= strings.Fields(line)
+		columns := strings.Fields(line)
 		field1, err := strconv.Atoi(columns[0])
 		if err != nil {
 			fmt.Println("Could not convert to int")
-			os.Exit(1) 
+			os.Exit(1)
 		}
 		array1 = append(array1, field1)
 		field2, err := strconv.Atoi(columns[1])
 		if err != nil {
 			fmt.Println("Could not convert to int")
-			os.Exit(1) 
+			os.Exit(1)
 		}
 		array2 = append(array2, field2)
 	}
@@ -54,13 +54,13 @@ func main() {
 	sort.Ints(array1)
 	sort.Ints(array2)
 
-	// fmt.Println(array1) 
+	// fmt.Println(array1)
 	// fmt.Println(array2)
 
 	sum := 0
-	for i:=0; i<len(array1); i++ {
-		sum += absInt(array1[i] - array2[i]) 
+	for i := 0; i < len(array1); i++ {
+		sum += absInt(array1[i] - array2[i])
 	}
 
-	fmt.Println("Result: ", sum) 
+	fmt.Println("Result: ", sum)
 }

@@ -22,3 +22,5 @@ part1:
 part2:
 	go run part2.go input
 
+format:
+	go fmt part?.go
