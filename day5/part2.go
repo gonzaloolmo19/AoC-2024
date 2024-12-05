@@ -104,7 +104,7 @@ func main() {
 			// Sort the invalid updates
 
 			sort.Slice(update, func(i, j int) bool {
-				return contained(update[i], ruleMap[update[j]])
+				return contained(update[j], ruleMap[update[i]])
 			})
 
 			fmt.Println("update ordered", update)
