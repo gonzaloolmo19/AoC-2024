@@ -65,7 +65,11 @@ func tryObstacle(m []string, obsCol, obsRow, startCol, startRow int) bool {
 			col = col - Dir[direction].hor
 			row = row - Dir[direction].vert
 			direction = (direction + 1) % 4
-			// We do this continue to check in the history path both direction when the guard turns
+			// We do this continue to do the turn and moving in different steps to avoid
+			// error in situations like:
+			// ..#.
+			// ...#
+			// ..^.
 			continue
 		}
 
