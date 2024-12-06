@@ -13,6 +13,11 @@ type DirVector struct {
 	hor int
 }
 
+type pathHistory struct {
+	stepped bool
+	direction Direction
+}
+
 const(
 	Up Direction = iota
 	Right
@@ -25,6 +30,47 @@ var Dir =  [4]DirVector{
 	Right: {vert: 0, hor: 1},   // Right is (0, 1)
 	Down:  {vert: 1, hor: 0},   // Down is (1, 0)
 	Left:  {vert: 0, hor: -1},  // Left is (0, -1)
+}
+
+func tryObstacle(m []string, obsCol, obsRow, startCol, startRow int) bool {
+	if obsCol== startCol && obsRow== startRow {
+		return false
+	}
+	height := len(m)
+	width := len(m[0])
+	path := make([][][]Direction, height)
+	for i := range path {
+		// Each inner slice represents a row
+		path[i] = make([][]Direction, width)
+	}
+
+	direction := 0
+	col := startCol
+	row := startRow
+	for !(col < 0 || col >= width || row < 0 || row >= height) {
+		// Check if we entered a loop
+		for _, dir := range path[row][col] {
+			if dir == Direction(direction) {
+				fmt.Println("loop if obstacle in ", obsCol, obsRow)
+				return true
+			}
+		}
+		path[row][col] = append(path[row][col], Direction(direction))
+
+		if m[row][col] == '#' || (row == obsRow && col== obsCol){
+			// fmt.Println("Colision")
+			col = col - Dir[direction].hor
+			row = row - Dir[direction].vert
+			direction = (direction + 1) % 4
+			continue
+		}
+
+		// Update position
+		col += Dir[direction].hor
+		row += Dir[direction].vert
+		// fmt.Println(col, row)
+	}
+	return false
 }
 
 func main() {
@@ -46,50 +92,25 @@ func main() {
 	width := len(lines[0])
 	height := len(lines)
 
+	fmt.Println("width", width)
+	fmt.Println("height", height) 
 
 
-	var col,row int
+
+	var startCol,startRow int
 	for i, line := range lines {
 		for j, char := range line {
 			if char == '^' {
-				col = j
-				row = i
+				startCol = j
+				startRow = i
 			}
 		}
 	}
 
-	direction := 0
-
-	path := make([][]int, height)
-	for i := range path {
-		// Each inner slice represents a row
-		path[i] = make([]int, width)
-	}
-
-	path[row][col] = 1
-
-	for true {
-		nextCol := col + Dir[direction].hor
-		nextRow := row + Dir[direction].vert
-		if nextCol < 0 || nextCol >= width || nextRow < 0 || nextRow >= height {
-			break
-		}
-		if lines[nextRow][nextCol] == '#' {
-			// fmt.Println("Colision")
-			direction = (direction + 1) % 4
-			nextCol = col + Dir[direction].hor
-			nextRow = row + Dir[direction].vert
-		}
-		col = nextCol
-		row = nextRow
-		path[row][col] = 1
-		// fmt.Println(col, row)
-	}
-
 	counter := 0
-	for _, row := range path {
-		for _, num := range row {
-			if num != 0 {
+	for i, line := range lines {
+		for j, _:= range line {
+			if tryObstacle(lines, j, i, startCol, startRow) {
 				counter++
 			}
 		}
