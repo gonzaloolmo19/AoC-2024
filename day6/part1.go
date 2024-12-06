@@ -10,21 +10,21 @@ type Direction int
 
 type DirVector struct {
 	vert int
-	hor int
+	hor  int
 }
 
-const(
+const (
 	Up Direction = iota
 	Right
 	Down
 	Left
 )
 
-var Dir =  [4]DirVector{
-	Up:    {vert: -1, hor: 0},  // Up is (-1, 0)
-	Right: {vert: 0, hor: 1},   // Right is (0, 1)
-	Down:  {vert: 1, hor: 0},   // Down is (1, 0)
-	Left:  {vert: 0, hor: -1},  // Left is (0, -1)
+var Dir = [4]DirVector{
+	Up:    {vert: -1, hor: 0}, // Up is (-1, 0)
+	Right: {vert: 0, hor: 1},  // Right is (0, 1)
+	Down:  {vert: 1, hor: 0},  // Down is (1, 0)
+	Left:  {vert: 0, hor: -1}, // Left is (0, -1)
 }
 
 func main() {
@@ -46,9 +46,7 @@ func main() {
 	width := len(lines[0])
 	height := len(lines)
 
-
-
-	var col,row int
+	var col, row int
 	for i, line := range lines {
 		for j, char := range line {
 			if char == '^' {

@@ -10,32 +10,33 @@ type Direction int
 
 type DirVector struct {
 	vert int
-	hor int
+	hor  int
 }
 
 type pathHistory struct {
-	stepped bool
+	stepped   bool
 	direction Direction
 }
 
-const(
+const (
 	Up Direction = iota
 	Right
 	Down
 	Left
 )
 
-var Dir =  [4]DirVector{
-	Up:    {vert: -1, hor: 0},  // Up is (-1, 0)
-	Right: {vert: 0, hor: 1},   // Right is (0, 1)
-	Down:  {vert: 1, hor: 0},   // Down is (1, 0)
-	Left:  {vert: 0, hor: -1},  // Left is (0, -1)
+var Dir = [4]DirVector{
+	Up:    {vert: -1, hor: 0}, // Up is (-1, 0)
+	Right: {vert: 0, hor: 1},  // Right is (0, 1)
+	Down:  {vert: 1, hor: 0},  // Down is (1, 0)
+	Left:  {vert: 0, hor: -1}, // Left is (0, -1)
 }
 
 func tryObstacle(m []string, obsCol, obsRow, startCol, startRow int) bool {
-	if obsCol== startCol && obsRow== startRow {
+	if obsCol == startCol && obsRow == startRow {
 		return false
 	}
+
 	height := len(m)
 	width := len(m[0])
 	path := make([][][]Direction, height)
@@ -47,6 +48,8 @@ func tryObstacle(m []string, obsCol, obsRow, startCol, startRow int) bool {
 	direction := 0
 	col := startCol
 	row := startRow
+
+	// while the guard does not go out of bounds
 	for !(col < 0 || col >= width || row < 0 || row >= height) {
 		// Check if we entered a loop
 		for _, dir := range path[row][col] {
@@ -57,11 +60,12 @@ func tryObstacle(m []string, obsCol, obsRow, startCol, startRow int) bool {
 		}
 		path[row][col] = append(path[row][col], Direction(direction))
 
-		if m[row][col] == '#' || (row == obsRow && col== obsCol){
+		if m[row][col] == '#' || (row == obsRow && col == obsCol) {
 			// fmt.Println("Colision")
 			col = col - Dir[direction].hor
 			row = row - Dir[direction].vert
 			direction = (direction + 1) % 4
+			// We do this continue to check in the history path both direction when the guard turns
 			continue
 		}
 
@@ -93,11 +97,9 @@ func main() {
 	height := len(lines)
 
 	fmt.Println("width", width)
-	fmt.Println("height", height) 
+	fmt.Println("height", height)
 
-
-
-	var startCol,startRow int
+	var startCol, startRow int
 	for i, line := range lines {
 		for j, char := range line {
 			if char == '^' {
@@ -109,7 +111,7 @@ func main() {
 
 	counter := 0
 	for i, line := range lines {
-		for j, _:= range line {
+		for j, _ := range line {
 			if tryObstacle(lines, j, i, startCol, startRow) {
 				counter++
 			}
