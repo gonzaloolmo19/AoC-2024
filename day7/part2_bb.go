@@ -12,46 +12,35 @@ type ecuation struct {
 	list   []int
 }
 
+type pair struct {
+	first  int
+	second int
+}
+
 func concat(x, y int) int {
 	str := strconv.Itoa(x) + strconv.Itoa(y)
 	res, _ := strconv.Atoi(str)
 	return res
 }
 
-// Now I use backtracking. It is a little bit faster than brute force for
-// the input, but not too much (1.45 s)
-func backtrack(e ecuation, path []int, nSol *int) {
-	if *nSol > 0 {
-		return
-	}
-	nOperators := len(e.list) - 1
-	calcRes := e.list[0]
-	for i, op := range path {
-		if op == 0 {
-			calcRes += e.list[i+1]
-		} else if op == 1 {
-			calcRes *= e.list[i+1]
-		} else if op == 2 {
-			calcRes = concat(calcRes, e.list[i+1])
-		}
-	}
-	if len(path) == nOperators && calcRes == e.result {
-		*nSol++
-	}
-
-	if calcRes <= e.result && len(path) < nOperators {
-		for i := 0; i < 3; i++ {
-			path = append(path, i)
-			backtrack(e, path, nSol)
-			path = path[:len(path)-1]
-		}
-	}
-}
-
+// now using branch and bound, it is considerably faster (450 ms) than brute force (1.7 s) or backtrackint (1.45 s)
+// But running the result is a little diferent to the correct answer. I have a bug somewhere
 func verifyEcuation(e ecuation) bool {
-	nSol := 0
-	backtrack(e, []int{}, &nSol)
-	return nSol > 0
+	stack := []pair{pair{0, 0}}
+	for len(stack) > 0 {
+		state := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		if state.first == len(e.list) && state.second == e.result {
+			return true
+		}
+
+		if state.first < len(e.list) && state.second <= e.result {
+			stack = append(stack, pair{state.first + 1, state.second + e.list[state.first]})
+			stack = append(stack, pair{state.first + 1, state.second * e.list[state.first]})
+			stack = append(stack, pair{state.first + 1, concat(state.second, e.list[state.first])})
+		}
+	}
+	return false
 }
 
 func main() {
