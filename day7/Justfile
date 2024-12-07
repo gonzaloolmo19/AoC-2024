@@ -2,6 +2,7 @@ alias p1t := part1-test
 alias p2t := part2-test
 alias p1 := part1
 alias p2 := part2
+alias p2b := part2_bk
 
 default:
 	just --list
@@ -21,6 +22,9 @@ part1:
 # Run part 2 in the problem input
 part2:
 	go run part2.go input
+
+part2_bk:
+	go run part2_bk.go input
 
 format:
 	go fmt part?.go
