@@ -59,17 +59,13 @@ func main() {
 				vector := antenas[i].Sub(antenas[j])
 				antinode := antenas[i]
 				for ValidPos(antinode, width, height) {
-					if ValidPos(antinode, width, height) {
-						a[antinode] = true
-					}
+					a[antinode] = true
 					antinode = antinode.Add(vector)
 				}
 				vector = antenas[j].Sub(antenas[i])
 				antinode = antenas[j]
 				for ValidPos(antinode, width, height) {
-					if ValidPos(antinode, width, height) {
-						a[antinode] = true
-					}
+					a[antinode] = true
 					antinode = antinode.Add(vector)
 				}
 			}
