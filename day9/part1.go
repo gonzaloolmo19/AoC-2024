@@ -6,18 +6,16 @@ import (
 	"strconv"
 )
 
-
 func makeDisk(s string) []int {
 	isFile := true
 	var disk []int
 	id := 0
 
-
 	for i := range s {
 		if isFile {
 			fileLength, _ := strconv.Atoi(string(s[i]))
 			for j := 0; j < fileLength; j++ {
-				disk = append(disk, id) 
+				disk = append(disk, id)
 			}
 			id++
 			isFile = false
@@ -56,7 +54,6 @@ func checkSum(disk []int) int {
 	}
 	return sum
 }
-
 
 func main() {
 	if len(os.Args) < 2 {
