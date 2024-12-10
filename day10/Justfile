@@ -1,0 +1,26 @@
+alias p1t := part1-test
+alias p2t := part2-test
+alias p1 := part1
+alias p2 := part2
+
+default:
+	just --list
+
+# Run test n in part 1
+part1-test n:
+	go run part1.go test{{n}}
+
+# Run test 2 in part 2
+part2-test n:
+	go run part2.go test{{n}}
+
+# Run part 1 in the problem input
+part1:
+	go run part1.go input
+
+# Run part 2 in the problem input
+part2:
+	go run part2.go input
+
+format:
+	go fmt part?.go
