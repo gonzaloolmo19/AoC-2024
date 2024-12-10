@@ -67,37 +67,23 @@ func backtrack(currentPos position, m [][]int, path []position, result *int) {
 		*result++
 	}
 
-	// Comprobar si se puede mover hacia la derecha
-	if currentPos.col+1 < len(m[0]) && (m[currentPos.row][currentPos.col+1] == currentPos.heigth+1) {
-		// fmt.Println("Se puede mover hacia la derecha desde", currentPos)
-		nextPos := position{currentPos.row, currentPos.col + 1, currentPos.heigth + 1}
-		path = append(path, nextPos)
-		backtrack(nextPos, m, path, result)
-		path = path[:len(path)-1]
+	directions := []struct {
+		rowDelta, colDelta int
+	}{
+		{0, 1},  // Right
+		{0, -1}, // Left
+		{-1, 0}, // Up
+		{1, 0},  // Down
 	}
 
-	// Comprobar si se puede mover hacia la izquierda
-	if currentPos.col-1 >= 0 && (m[currentPos.row][currentPos.col-1] == currentPos.heigth+1) {
-		nextPos := position{currentPos.row, currentPos.col - 1, currentPos.heigth + 1}
-		path = append(path, nextPos)
-		backtrack(nextPos, m, path, result)
-		path = path[:len(path)-1]
+	for _, dir := range directions {
+		newRow, newCol := currentPos.row+dir.rowDelta, currentPos.col+dir.colDelta
+		if newRow >= 0 && newRow < len(m) && newCol >= 0 && newCol < len(m[0]) &&
+			m[newRow][newCol] == currentPos.heigth+1 {
+			nextPos := position{newRow, newCol, currentPos.heigth + 1}
+			path = append(path, nextPos)
+			backtrack(nextPos, m, path, result)
+			path = path[:len(path)-1]
+		}
 	}
-
-	// Comprobar si se puede mover hacia la arriba
-	if currentPos.row-1 >= 0 && (m[currentPos.row-1][currentPos.col] == currentPos.heigth+1) {
-		nextPos := position{currentPos.row - 1, currentPos.col, currentPos.heigth + 1}
-		path = append(path, nextPos)
-		backtrack(nextPos, m, path, result)
-		path = path[:len(path)-1]
-	}
-
-	// Comprobar si se puede mover hacia la abajo
-	if currentPos.row+1 < len(m) && (m[currentPos.row+1][currentPos.col] == currentPos.heigth+1) {
-		nextPos := position{currentPos.row + 1, currentPos.col, currentPos.heigth + 1}
-		path = append(path, nextPos)
-		backtrack(nextPos, m, path, result)
-		path = path[:len(path)-1]
-	}
-
 }
