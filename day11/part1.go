@@ -32,7 +32,7 @@ func main() {
 	nBlinks := 75
 
 	for i := 0; i < nBlinks; i++ {
-		fmt.Println("iteracion ", i) 
+		fmt.Println("iteracion ", i)
 		Blink(rocks)
 	}
 
@@ -46,9 +46,9 @@ func main() {
 
 func Blink(r *list.List) {
 	for e := r.Front(); e != nil; e = e.Next() {
-		if (e.Value == 0) {
+		if e.Value == 0 {
 			e.Value = 1
-		} else if (len(strconv.Itoa(e.Value.(int))) % 2 == 0) {
+		} else if len(strconv.Itoa(e.Value.(int)))%2 == 0 {
 			str := strconv.Itoa(e.Value.(int))
 			firstStr := str[:len(str)/2]
 			secondStr := str[len(str)/2:]
@@ -61,6 +61,6 @@ func Blink(r *list.List) {
 		} else {
 			e.Value = e.Value.(int) * 2024
 		}
-		fmt.Println(e.Value) 
+		fmt.Println(e.Value)
 	}
 }
